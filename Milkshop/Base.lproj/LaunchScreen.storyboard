@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cow" translatesAutoresizingMaskIntoConstraints="NO" id="JJW-zu-75a">
+                                <rect key="frame" x="0.0" y="114" width="414" height="267"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeapp.png" translatesAutoresizingMaskIntoConstraints="NO" id="sud-7E-rqa">
+                                <rect key="frame" x="0.0" y="357" width="414" height="289"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.3085349798" green="0.49429559709999998" blue="0.14498907329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="JJW-zu-75a" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="70" id="COR-e2-cYB"/>
+                            <constraint firstItem="JJW-zu-75a" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="267:896" id="Ijn-7P-Ihg"/>
+                            <constraint firstItem="sud-7E-rqa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Lxp-rA-s95"/>
+                            <constraint firstItem="sud-7E-rqa" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="TKT-kL-cNP"/>
+                            <constraint firstItem="sud-7E-rqa" firstAttribute="top" secondItem="JJW-zu-75a" secondAttribute="bottom" constant="-24" id="ZP9-ap-8Ql"/>
+                            <constraint firstItem="JJW-zu-75a" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="hmP-AG-Wfv"/>
+                            <constraint firstItem="sud-7E-rqa" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="jo8-MN-hTE"/>
+                            <constraint firstItem="JJW-zu-75a" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="oPN-JJ-QQe"/>
+                            <constraint firstItem="sud-7E-rqa" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="289:896" id="rk5-hU-Eqv"/>
+                            <constraint firstItem="JJW-zu-75a" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="zX5-fy-tr2"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52.173913043478265" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Cow" width="459" height="455"/>
+        <image name="welcomeapp.png" width="291" height="274"/>
+    </resources>
+</document>

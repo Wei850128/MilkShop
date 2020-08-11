@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "iconfinder_21_Location_map_pin_mark_navigation_6442797.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

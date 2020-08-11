@@ -1,0 +1,6 @@
+framework module Pods_Milkshop {
+  umbrella header "Pods-Milkshop-umbrella.h"
+
+  export *
+  module * { export * }
+}
