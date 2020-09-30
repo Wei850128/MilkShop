@@ -62,9 +62,13 @@ class OrderlistViewController: UIViewController, UITableViewDelegate, UITableVie
         ordertableview.delegate = self
         ordertableview.dataSource = self
         readData()
-        loading.hidesWhenStopped = true
-        loading.startAnimating()
-        loading.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+        if orderlist.count == 0 {
+            loading.isHidden = true
+        } else {
+            loading.hidesWhenStopped = true
+            loading.startAnimating()
+            loading.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+        }
     }
     
     
