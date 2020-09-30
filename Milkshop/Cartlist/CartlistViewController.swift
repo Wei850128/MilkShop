@@ -18,7 +18,7 @@ import FirebaseFirestore
 class CartlistViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var cartlist:[Cart] = []
-
+    
     //計算總杯數及總金額
     var pricelist:[Int] = []
     var countlist:[Int] = []
@@ -42,27 +42,27 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func sendorder(_ sender: UIButton) {
         let price = totalprice.text
         let count = totalcount.text
-           if timelabel.text! == "請選擇外送時間" {
-                let alert = UIAlertController(title: "忘記選擇您的外送時間囉！", message: "趕快回去確實選擇並再此送出訂單唷！", preferredStyle: .alert)
-                let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-                alert.addAction(ok)
-                present(alert, animated: true, completion: nil)
-            } else {
-                var documentId:[String] = []
-                var namelist:[String] = []
-                var pricelist:[Int] = []
-                var countlist:[Int] = []
-                var callist:[String] = []
-                var sugarlist:[String] = []
-                var detaillist:[String] = []
-                var temperaturelist:[String] = []
-                
+        if timelabel.text! == "請選擇外送時間" {
+            let alert = UIAlertController(title: "忘記選擇您的外送時間囉！", message: "趕快回去確實選擇並再此送出訂單唷！", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+        } else {
+            var documentId:[String] = []
+            var namelist:[String] = []
+            var pricelist:[Int] = []
+            var countlist:[Int] = []
+            var callist:[String] = []
+            var sugarlist:[String] = []
+            var detaillist:[String] = []
+            var temperaturelist:[String] = []
+            
             let alert = UIAlertController(title: "確認您的訂單了嗎？", message: "確認後記得用Line將訂單傳送給我們唷！", preferredStyle: .alert)
             let ok = UIAlertAction(title: "OK", style: .default) { (action) in
-        
+                
                 if let user = self.user {
                     if let email = user.email{
-
+                        
                         //訂單編號 每成功送出訂單就＋1
                         self.total += 1
                         if self.total < 10 {
@@ -71,18 +71,18 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
                                  "totalcount":self.totalcount.text ?? "",
                                  "totalprice":self.totalprice.text ?? "",
                                  "datenow": self.getDateString(Date())
-                                ])
+                            ])
                         } else {
                             self.db.collection("Ordertotal-\(email)").document("List-\(self.total)").setData(
                                 ["datetime":self.timelabel.text ?? "",
                                  "totalcount":self.totalcount.text ?? "",
                                  "totalprice":self.totalprice.text ?? "",
                                  "datenow": self.getDateString(Date())
-                                ])
+                            ])
                         }
                         self.db.collection("Cart-\(email)").getDocuments { (querySnapshot, error) in
-                           if let querySnapshot = querySnapshot {
-                               //將每個document及documentData 分別放進陣列 再存進另一個collection
+                            if let querySnapshot = querySnapshot {
+                                //將每個document及documentData 分別放進陣列 再存進另一個collection
                                 for document in querySnapshot.documents {
                                     print(document.documentID)
                                     documentId.append(document.documentID)
@@ -97,56 +97,56 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
                                     } else {
                                         detaillist.append(document.data()["drinkdetail"] as? String ?? "")
                                     }
-                                   //傳送訂單至Line
-                                   self.db.collection("Milkshop").document(email).getDocument { (document, error) in
-                                       if let document = document, document.exists {
-                                           var str = ""
-                                           for i in 0..<documentId.count {
-                                               self.message = "飲料名稱：\(namelist[i])\n飲料甜度：\(sugarlist[i])\n飲料冰塊：\(temperaturelist[i])\n飲料杯數：\(countlist[i]) 杯\n飲料備註：\(detaillist[i])\n-------------------------\n"
-                                               str += self.message!
-                                           }
-                                           let detail = "此單總杯數：  \(count ?? "")  杯\n此單總金額：\(price ?? "") NT$\n-------------------------\n姓名：\(document.data()?["Name"] as? String ?? "")\n電話：\(document.data()?["Phone"] as? String ?? "")\n地址：\(document.data()?["Address"] as? String ?? "")\n外送時間：\(self.timelabel.text ?? "")"
-                                           let encodeMessage = detail.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-                                           let ordermessag = str.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-                                           //傳送訊息給指定用戶
-                                           let lineURL = URL(string: "line://oaMessage/@337tvbck/\(ordermessag!)" + encodeMessage!) // 分享訊息的 URL Scheme
-                                           if UIApplication.shared.canOpenURL(lineURL!) {
-                                               UIApplication.shared.open(lineURL!, options: [:], completionHandler: nil)
-                                           } else {
-                                           // 若沒安裝 Line 則導到 App Store(id443904275 為 Line App 的 ID)
-                                               let lineURL = URL(string: "itms-apps://itunes.apple.com/app/id443904275")!
-                                               UIApplication.shared.open(lineURL, options: [:], completionHandler: nil)
-                                           }
-                                       }else{
-                                           print("Document does not exist")
-                                       }
-                                   }
+                                    //傳送訂單至Line
+                                    self.db.collection("Milkshop").document(email).getDocument { (document, error) in
+                                        if let document = document, document.exists {
+                                            var str = ""
+                                            for i in 0..<documentId.count {
+                                                self.message = "飲料名稱：\(namelist[i])\n飲料甜度：\(sugarlist[i])\n飲料冰塊：\(temperaturelist[i])\n飲料杯數：\(countlist[i]) 杯\n飲料備註：\(detaillist[i])\n-------------------------\n"
+                                                str += self.message!
+                                            }
+                                            let detail = "此單總杯數：  \(count ?? "")  杯\n此單總金額：\(price ?? "") NT$\n-------------------------\n姓名：\(document.data()?["Name"] as? String ?? "")\n電話：\(document.data()?["Phone"] as? String ?? "")\n地址：\(document.data()?["Address"] as? String ?? "")\n外送時間：\(self.timelabel.text ?? "")"
+                                            let encodeMessage = detail.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+                                            let ordermessag = str.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+                                            //傳送訊息給指定用戶
+                                            let lineURL = URL(string: "line://oaMessage/@337tvbck/\(ordermessag!)" + encodeMessage!) // 分享訊息的 URL Scheme
+                                            if UIApplication.shared.canOpenURL(lineURL!) {
+                                                UIApplication.shared.open(lineURL!, options: [:], completionHandler: nil)
+                                            } else {
+                                                // 若沒安裝 Line 則導到 App Store(id443904275 為 Line App 的 ID)
+                                                let lineURL = URL(string: "itms-apps://itunes.apple.com/app/id443904275")!
+                                                UIApplication.shared.open(lineURL, options: [:], completionHandler: nil)
+                                            }
+                                        }else{
+                                            print("Document does not exist")
+                                        }
+                                    }
                                     //每一筆的document 對照 每一筆的data資料
                                     var i = 0
-                                        for idx in documentId {
-                                            i += 1
-                                            for index in 0..<namelist.count {
-                                                if index < i && self.total < 10 {
-                                                    self.db.collection("OrderList-0\(self.total)-\(email)").document(idx).setData(["drinkname":namelist[index],
-                                                     "drinkprice":pricelist[index],
-                                                     "drinkcal":callist[index],
-                                                     "drinkcount":countlist[index],
-                                                     "drinksugar":sugarlist[index],
-                                                     "drinktemperature":temperaturelist[index],
-                                                     "drinkdetail":detaillist[index]
-                                                    ])
-                                                }else if index < i {
-                                                    self.db.collection("OrderList-\(self.total)-\(email)").document(idx).setData(["drinkname":namelist[index],
-                                                     "drinkprice":pricelist[index],
-                                                     "drinkcal":callist[index],
-                                                     "drinkcount":countlist[index],
-                                                     "drinksugar":sugarlist[index],
-                                                     "drinktemperature":temperaturelist[index],
-                                                     "drinkdetail":detaillist[index]
-                                                    ])
-                                                }
+                                    for idx in documentId {
+                                        i += 1
+                                        for index in 0..<namelist.count {
+                                            if index < i && self.total < 10 {
+                                                self.db.collection("OrderList-0\(self.total)-\(email)").document(idx).setData(["drinkname":namelist[index],
+                                                                                                                               "drinkprice":pricelist[index],
+                                                                                                                               "drinkcal":callist[index],
+                                                                                                                               "drinkcount":countlist[index],
+                                                                                                                               "drinksugar":sugarlist[index],
+                                                                                                                               "drinktemperature":temperaturelist[index],
+                                                                                                                               "drinkdetail":detaillist[index]
+                                                ])
+                                            }else if index < i {
+                                                self.db.collection("OrderList-\(self.total)-\(email)").document(idx).setData(["drinkname":namelist[index],
+                                                                                                                              "drinkprice":pricelist[index],
+                                                                                                                              "drinkcal":callist[index],
+                                                                                                                              "drinkcount":countlist[index],
+                                                                                                                              "drinksugar":sugarlist[index],
+                                                                                                                              "drinktemperature":temperaturelist[index],
+                                                                                                                              "drinkdetail":detaillist[index]
+                                                ])
                                             }
                                         }
+                                    }
                                     //把目前訂單個數再存回firebase
                                     self.db.collection("Milkshop").document("total-\(email)").setData(["total":self.total])
                                     //將每個document抓出來一一刪除
@@ -159,7 +159,7 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
                                             }
                                         }
                                     }
-
+                                    
                                     self.totalcount.text = "0"
                                     self.totalprice.text = "0"
                                     self.cartlist.removeAll()
@@ -181,10 +181,10 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
             alert.addAction(ok)
             alert.addAction(cancel)
             self.present(alert, animated: true, completion: nil)
-            }
         }
+    }
     
-     func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
@@ -210,7 +210,7 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
-   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         //刪除同時也把firebase及陣列資料刪除
         if editingStyle == .delete {
             if let user = user {
@@ -263,7 +263,7 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-         if let dvc = segue.destination as? MenuDetailTableViewController {
+        if let dvc = segue.destination as? MenuDetailTableViewController {
             if segue.identifier == "editcart" {
                 let selectedIndexPath =  self.carttableview.indexPathForSelectedRow//自己所點到的選項
                 //將所點選的項目id傳值過去
@@ -276,7 +276,7 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
     }
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -288,14 +288,14 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
         findTotal()
         elementenable()
     }
-
+    
     
     override func viewWillAppear(_ animated: Bool) {
         readData()
     }
     
     
-
+    
     func elementenable() {
         //購物車為空時不給送出訂單及選擇日期
         if  cartlist.count == 0 {
@@ -351,13 +351,13 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     //在營業時間內才給選擇外送時間
-   func getDateMax(_ date: Date) -> String {
+    func getDateMax(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH"
         return formatter.string(from: date)
     }
     
-
+    
     
     func readData() {
         if let user = user {
@@ -366,15 +366,15 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
                 pricelist = []
                 countlist = []
                 db.collection("Cart-\(email)").getDocuments  { (querySnapshot, error) in
-                   if let querySnapshot = querySnapshot {
+                    if let querySnapshot = querySnapshot {
                         for document in querySnapshot.documents {
                             self.cartlist.append(Cart.init(documentId: document.documentID, namelist: document.data()["drinkname"] as? String ?? "", pricelist: Int(document.data()["drinkprice"] as? String ?? "") ?? 0, countlist: Int(document.data()["drinkcount"] as? String ?? "") ?? 0, callist: document.data()["drinkcal"] as? String ?? "", sugarlist: document.data()["drinksugar"] as? String ?? "", detaillist: document.data()["drinkdetail"] as? String ?? "", temperaturelist: document.data()["drinktemperature"] as? String ?? ""))
                             self.pricelist.append(Int(document.data()["drinkprice"] as? String ?? "") ?? 0)
                             self.countlist.append(Int(document.data()["drinkcount"] as? String ?? "") ?? 0)
                         }
-                   } else {
-                      print("Document does not exist")
-                   }
+                    } else {
+                        print("Document does not exist")
+                    }
                     self.calculateTotalcount()
                     self.calculateTotalprice()
                     self.tabbarbadge()
@@ -387,14 +387,14 @@ class CartlistViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     //計算總杯數
-       func calculateTotalcount() {
-           var total = 0
-           for index in countlist {
-               total += index
-               totalcount.text = String(total)
-               
-           }
-       }
+    func calculateTotalcount() {
+        var total = 0
+        for index in countlist {
+            total += index
+            totalcount.text = String(total)
+            
+        }
+    }
     
     //計算總金額
     func calculateTotalprice() {

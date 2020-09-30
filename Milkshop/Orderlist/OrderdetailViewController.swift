@@ -34,28 +34,28 @@ class OrderdetailViewController: UIViewController, UITableViewDelegate, UITableV
                         var index = "-1"
                         for idx in self.documentid {
                             if idx == "\(self.orderdetail[i].namelist),\(self.orderdetail[i].sugarlist),\(self.orderdetail[i].temperaturelist),\(self.orderdetail[i].detaillist)"  {
-                                    index = idx
-                                    break
-                                }
+                                index = idx
+                                break
                             }
+                        }
                         if index != "-1" {
                             self.db.collection("Cart-\(email)").document(index).getDocument { (document, error) in
                                 if let document = document, document.exists {
                                     let pricetotal = self.orderdetail[i].pricelist + Int(document.data()?["drinkprice"] as! String)!
                                     let counttotal  = self.orderdetail[i].countlist + Int(document.data()?["drinkcount"] as! String)!
                                     self.db.collection("Cart-\(email)").document(index).setData(["drinkprice":String(pricetotal),
-                                                  "drinkcount":String(counttotal),
+                                                                                                 "drinkcount":String(counttotal),
                                     ],merge: true)
                                 }
                             }
                         } else {
                             self.db.collection("Cart-\(email)").document("\(self.orderdetail[i].namelist),\(self.orderdetail[i].sugarlist),\(self.orderdetail[i].temperaturelist),\(self.orderdetail[i].detaillist)").setData( ["drinkname":self.orderdetail[i].namelist,
-                                 "drinkprice":String(self.orderdetail[i].pricelist),
-                                 "drinkcount":String(self.orderdetail[i].countlist),
-                                 "drinkcal":self.orderdetail[i].callist,
-                                 "drinkdetail":self.orderdetail[i].detaillist,
-                                 "drinksugar":self.orderdetail[i].sugarlist,
-                                 "drinktemperature":self.orderdetail[i].temperaturelist])
+                                                                                                                                                                                                                                "drinkprice":String(self.orderdetail[i].pricelist),
+                                                                                                                                                                                                                                "drinkcount":String(self.orderdetail[i].countlist),
+                                                                                                                                                                                                                                "drinkcal":self.orderdetail[i].callist,
+                                                                                                                                                                                                                                "drinkdetail":self.orderdetail[i].detaillist,
+                                                                                                                                                                                                                                "drinksugar":self.orderdetail[i].sugarlist,
+                                                                                                                                                                                                                                "drinktemperature":self.orderdetail[i].temperaturelist])
                         }
                     }
                 }
@@ -85,7 +85,7 @@ class OrderdetailViewController: UIViewController, UITableViewDelegate, UITableV
         readData()
     }
     
-  
+    
     override func viewWillAppear(_ animated: Bool) {
         if let user = user {
             if let email = user.email{
@@ -122,16 +122,16 @@ class OrderdetailViewController: UIViewController, UITableViewDelegate, UITableV
     func readData() {
         if let user = user {
             if let email = user.email {
-                    db.collection("Ordertotal-\(email)").document(id ?? "").getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            self.title = " 外送時間 ～ \(document.data()?["datetime"] as? String ?? "") "
-                            self.ordertotalprice.text = document.data()?["totalprice"] as? String ?? ""
-                            self.ordertotalcount.text = document.data()?["totalcount"] as? String ?? ""
-                        }
+                db.collection("Ordertotal-\(email)").document(id ?? "").getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        self.title = " 外送時間 ～ \(document.data()?["datetime"] as? String ?? "") "
+                        self.ordertotalprice.text = document.data()?["totalprice"] as? String ?? ""
+                        self.ordertotalcount.text = document.data()?["totalcount"] as? String ?? ""
                     }
-                    db.collection("Order\(id ?? "")-\(email)").getDocuments { (querySnapshot, error) in
-                       if let querySnapshot = querySnapshot {
-                          for document in querySnapshot.documents {
+                }
+                db.collection("Order\(id ?? "")-\(email)").getDocuments { (querySnapshot, error) in
+                    if let querySnapshot = querySnapshot {
+                        for document in querySnapshot.documents {
                             print(document.data())
                             self.orderdetail.append(Orderdetail.init(namelist: document.data()["drinkname"] as? String ?? "", pricelist: document.data()["drinkprice"] as? Int ?? 0, countlist: document.data()["drinkcount"] as? Int ?? 0, callist: document.data()["drinkcal"] as? String ?? "", sugarlist: document.data()["drinksugar"] as? String ?? "", detaillist: document.data()["drinkdetail"] as? String ?? "", temperaturelist: document.data()["drinktemperature"] as? String ?? ""))
                         }
