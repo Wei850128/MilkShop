@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
-import LocalAuthentication
+//import LocalAuthentication
 
 class LoginViewController: UIViewController {
 
@@ -46,24 +46,6 @@ class LoginViewController: UIViewController {
         if Auth.auth().currentUser != nil {
              self.performSegue(withIdentifier: "loginToMain", sender: self)
         }
-
-        
-//        if UserDefaults.standard.object(forKey: UserTokenOwner) != nil {
-//            let context = LAContext()
-//            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "啟用快速登入") { (success, error) in
-//                if success {
-//                    if let token = UserDefaults.standard.object(forKey: UserToken) as? String {
-//                        self.db.collection("Milkshop").whereField("token", isEqualTo: token).getDocuments() { (querySnapshot, err) in
-//                            for document in querySnapshot?.documents ?? [] {
-//
-//                            }
-//                        }
-//                    } else {
-//
-//                    }
-//                }
-//            }
-//        }
     }
     
     func setupSubview() {

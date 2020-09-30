@@ -25,6 +25,7 @@ class MenuDetailTableViewController: UITableViewController {
     var documentname = ""
     
     @IBOutlet weak var loading: UIActivityIndicatorView!
+    
     //用idx判斷是新增還是修改訂單
     var idx:Int = -1
     //判斷修改第幾筆資料
@@ -281,15 +282,17 @@ class MenuDetailTableViewController: UITableViewController {
                             self.drinkcal.text = document.data()?["drinkcal"] as? String
                             self.drinkprice.text = document.data()?["drinkprice"] as? String
                             self.drinkcount.text = document.data()?["drinkcount"] as? String
-                            if document.data()?["drinkdetail"] as? String == "無" {
-                                self.drinkdetail.text = ""
-                            } else {
-                            self.drinkdetail.text = document.data()?["drinkdetail"] as? String
-                            }
+//                            if document.data()?["drinkdetail"] as? String == "無" {
+//                                self.drinkdetail.text = ""
+//                            } else {
+//                                self.drinkdetail.text = document.data()?["drinkdetail"] as? String
+//                            }
+                            self.drinkdetail.text = document.data()?["drinkdetail"] as? String == "無" ? "" : document.data()?["drinkdetail"] as? String
                             let drinksugaridx = document.data()?["drinksugar"] as? String
                             self.drinksugar.selectedSegmentIndex = Int(self.segmentidx(drinksugaridx!)) ?? 0
                             let drinktemperatureidx = document.data()?["drinktemperature"] as? String
                             self.drinktemperature.selectedSegmentIndex = Int(self.segmentidx(drinktemperatureidx!)) ?? 0
+                            
                             self.loading.stopAnimating()
                         } else {
                             print("Document does not exist")

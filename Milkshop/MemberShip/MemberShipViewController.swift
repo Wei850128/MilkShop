@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
-import LocalAuthentication
+//import LocalAuthentication
 
 class MemberShipViewController: UIViewController, UITextFieldDelegate {
     
