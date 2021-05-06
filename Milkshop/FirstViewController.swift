@@ -6,9 +6,7 @@
 //  Copyright © 2020 劉瑄. All rights reserved.
 //
 
-import UIKit
-import FirebaseAuth
-import FirebaseFirestore
+import UIKitimport FirebaseFirestore
 import Network
 
 class FirstViewController: UIViewController {
